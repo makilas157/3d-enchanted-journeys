@@ -90,7 +90,10 @@ function Dust() {
   });
 
   return (
-    <points ref={points} positions={positions}>
+    <points ref={points}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
       <pointsMaterial color="#e9a052" size={0.025} transparent opacity={0.58} sizeAttenuation />
     </points>
   );
