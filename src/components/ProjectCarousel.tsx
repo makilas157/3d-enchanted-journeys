@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 import { projects } from "@/data/site";
+import { Button } from "@/components/ui/button";
 
 export function ProjectCarousel() {
   const track = useRef<HTMLDivElement>(null);
@@ -14,22 +15,26 @@ export function ProjectCarousel() {
   return (
     <div>
       <div className="mb-6 flex justify-end gap-2">
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="icon"
           aria-label="Previous projects"
           onClick={() => scrollBy(-1)}
-          className="rounded-full border border-border p-2 transition-colors hover:border-accent/60"
+          className="rounded-full hover:border-accent/60"
         >
           <ChevronLeft className="h-4 w-4" />
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="outline"
+          size="icon"
           aria-label="Next projects"
           onClick={() => scrollBy(1)}
-          className="rounded-full border border-border p-2 transition-colors hover:border-accent/60"
+          className="rounded-full hover:border-accent/60"
         >
           <ChevronRight className="h-4 w-4" />
-        </button>
+        </Button>
       </div>
       <div
         ref={track}

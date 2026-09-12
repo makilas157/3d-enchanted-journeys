@@ -50,7 +50,7 @@ function PostPage() {
               loading="lazy"
               width={1024}
               height={768}
-              className="w-full rounded-xl border border-border object-cover"
+              className="article-image-3d w-full rounded-xl border border-border object-cover"
             />
           </Reveal>
           <Reveal delay={80}>
