@@ -16,6 +16,8 @@ import { Footer } from "@/components/Footer";
 import { CursorSpider } from "@/components/CursorSpider";
 import { PageTransition } from "@/components/PageTransition";
 import { ParticleField } from "@/components/ParticleField";
+import { ThreeBackdrop } from "@/components/ThreeBackdrop";
+import { DepthEffects } from "@/components/DepthEffects";
 
 function NotFoundComponent() {
   return (
@@ -124,6 +126,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Global particle field + lighting glows, present on every page */}
+      <ThreeBackdrop />
+      <DepthEffects />
       <ParticleField variant="ambient" />
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-amber absolute -top-32 left-1/4 h-96 w-96 rounded-full blur-3xl" />

@@ -16,13 +16,13 @@ export function Navbar() {
           <span className="font-display text-lg font-semibold tracking-tight">tevexxo</span>
         </Link>
 
-        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
+        <div className="nav-3d absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
           {navLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground [&.active]:text-accent"
+              className="nav-link-3d text-sm text-muted-foreground transition-colors hover:text-foreground [&.active]:text-accent"
             >
               {l.label}
             </Link>

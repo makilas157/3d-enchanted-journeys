@@ -209,6 +209,12 @@
 }
 
 @utility depth-card {
+  --surface-rx: 0deg;
+  --surface-ry: 0deg;
+  --surface-x: 50%;
+  --surface-y: 50%;
+  position: relative;
+  isolation: isolate;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: linear-gradient(160deg, oklch(0.2 0.03 50 / 0.85), oklch(0.15 0.02 45 / 0.85));
@@ -216,11 +222,30 @@
     transform 0.35s ease,
     box-shadow 0.35s ease,
     border-color 0.35s ease;
+  transform: perspective(70rem) rotateX(var(--surface-rx)) rotateY(var(--surface-ry));
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--surface-x) var(--surface-y), oklch(1 0 0 / 0.11), transparent 38%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
   &:hover {
-    transform: translateY(-6px);
+    transform: perspective(70rem) rotateX(var(--surface-rx)) rotateY(var(--surface-ry)) translateY(-6px) translateZ(0.7rem);
     border-color: oklch(0.68 0.19 40 / 0.5);
     box-shadow: var(--shadow-lift);
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
 
@@ -614,4 +639,108 @@
 }
 .glow-ember {
   background: color-mix(in srgb, #e2703a 10%, transparent);
+}
+
+/* Persistent WebGL sculpture shared by every route. */
+.three-backdrop {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0.68;
+  mask-image: linear-gradient(to bottom, black 0%, black 46%, transparent 88%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 46%, transparent 88%);
+}
+
+.three-backdrop canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.page-header-depth {
+  perspective: 70rem;
+}
+
+.header-depth-rings {
+  position: absolute;
+  top: 5.5rem;
+  right: max(4vw, 1.25rem);
+  width: min(31vw, 27rem);
+  aspect-ratio: 1;
+  transform: rotateX(66deg) rotateZ(-22deg);
+  transform-style: preserve-3d;
+  opacity: 0.48;
+}
+
+.header-depth-rings span {
+  position: absolute;
+  inset: calc(var(--ring-index, 0) * 11%);
+  border: 1px solid oklch(0.72 0.16 70 / 0.34);
+  border-radius: 50%;
+  box-shadow: 0 0 2rem oklch(0.68 0.19 40 / 0.12);
+  animation: tvx-ring-orbit 12s linear infinite;
+}
+
+.header-depth-rings span:nth-child(2) {
+  --ring-index: 1;
+  animation-direction: reverse;
+  animation-duration: 9s;
+}
+
+.header-depth-rings span:nth-child(3) {
+  --ring-index: 2;
+  animation-duration: 7s;
+}
+
+.article-image-3d {
+  --surface-rx: 0deg;
+  --surface-ry: 0deg;
+  transform: perspective(80rem) rotateX(var(--surface-rx)) rotateY(var(--surface-ry));
+  transform-style: preserve-3d;
+  box-shadow: 1.5rem 2rem 4rem -2.2rem oklch(0 0 0 / 0.9);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.article-image-3d:hover {
+  transform: perspective(80rem) rotateX(var(--surface-rx)) rotateY(var(--surface-ry)) translateZ(0.8rem);
+  box-shadow: 1.7rem 2.4rem 4.5rem -2rem oklch(0.68 0.19 40 / 0.3);
+}
+
+@keyframes tvx-ring-orbit {
+  from { transform: translateZ(0) rotateZ(0deg); }
+  50% { transform: translateZ(1.2rem) rotateZ(180deg); }
+  to { transform: translateZ(0) rotateZ(360deg); }
+}
+
+@media (max-width: 768px) {
+  .three-backdrop {
+    opacity: 0.44;
+    transform: translateX(18%);
+  }
+
+  .header-depth-rings {
+    width: 15rem;
+    right: -5rem;
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .three-backdrop {
+    display: none;
+  }
+
+  .header-depth-rings span {
+    animation: none;
+  }
+
+  .depth-card,
+  .depth-card:hover,
+  .article-image-3d,
+  .article-image-3d:hover {
+    transform: none;
+  }
 }
